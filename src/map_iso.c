@@ -7,9 +7,9 @@
 
 #include "myworld.h"
 
-sfVector2f project_iso_point(map_t *map, int x, int y, int z)
+pos_t project_iso_point(map_t *map, int x, int y, int z)
 {
-	sfVector2f tdpoint = (sfVector2f){0, 0};
+	pos_t	tdpoint = (pos_t){0, 0, 0};
 	double angleX = map->angle.x * M_PI / 180;
  	double angleY = map->angle.y * M_PI / 180;
 
@@ -18,15 +18,16 @@ sfVector2f project_iso_point(map_t *map, int x, int y, int z)
 	return (tdpoint);
 }
 
-sfVector2f	**convert_as_iso_map(map_t *map)
+pos_t	**convert_as_iso_map(map_t *map)
 {
 	int wid = map->width;
 	int hei = map->height;
-	sfVector2f **tdmap = (sfVector2f**)malloc(sizeof(sfVector2f*)*hei);
+	pos_t	**old = map->isomap;
+	pos_t	**tdmap = (pos_t**)malloc(sizeof(pos_t*)*hei);
 	sfVector3f pt3D = (sfVector3f) {0, 0, 0};
 
 	for (int j = 0; j < hei; j++) {
-		tdmap[j] = (sfVector2f*)malloc(sizeof(sfVector2f)*wid);
+		tdmap[j] = (pos_t*)malloc(sizeof(pos_t)*wid);
 		for (int i = 0; i < wid; i++) {
 			pt3D.x = i * map->scaling.x;
 			pt3D.y = j * map->scaling.y;
@@ -34,6 +35,7 @@ sfVector2f	**convert_as_iso_map(map_t *map)
 			tdmap[j][i] = project_iso_point(map, pt3D.x, pt3D.y, pt3D.z);
 			tdmap[j][i].x = tdmap[j][i].x + WIDTH/2;
 			tdmap[j][i].y = tdmap[j][i].y + HEIGHT/hei;
+			tdmap[j][i].selected = old != NULL ? old[j][i].selected : 0;
 		}
 	}
 	return (tdmap);

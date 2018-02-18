@@ -7,36 +7,52 @@
 
 #include "myworld.h"
 
-sfRenderWindow	*create_window()
+sfColor	get_line_color(pos_t *pt1, pos_t *pt2)
 {
-	sfRenderWindow	*window;
-	sfVideoMode	mode;
+	sfColor color = (sfColor){255,159,243,255};
 
-	mode.width = WIDTH;
-	mode.height = HEIGHT;
-	mode.bitsPerPixel = 32;
-	window = sfRenderWindow_create(mode, "My World", sfDefaultStyle, NULL);
-	sfRenderWindow_setFramerateLimit(window, 30);
-	return (window);
+	if (pt1->selected && pt2->selected)
+		return (color);
+	return (sfWhite);
 }
 
-sfVertexArray *create_line(sfVector2f *point1, sfVector2f *point2)
+sfVertexArray *create_line(pos_t *pt1, pos_t *pt2)
 {
 	sfVertexArray *vertex_array = sfVertexArray_create();
+	sfColor linecolor = get_line_color(pt1, pt2);
+	sfVector2f point1 = (sfVector2f){pt1->x, pt1->y};
+	sfVector2f point2 = (sfVector2f){pt2->x, pt2->y};
 
-	sfVertex vertex1 = {.position = *point1, .color = sfWhite};
-	sfVertex vertex2 = {.position = *point2, .color = sfWhite};
+	sfVertex vertex1 = {.position = point1, .color = linecolor};
+	sfVertex vertex2 = {.position = point2, .color = linecolor};
 	sfVertexArray_append(vertex_array, vertex1);
 	sfVertexArray_append(vertex_array, vertex2);
 	sfVertexArray_setPrimitiveType(vertex_array, sfLinesStrip);
 	return (vertex_array);
 }
 
+int	draw_selection(sfRenderWindow *wd, pos_t *pos)
+{
+	sfCircleShape	*circ = NULL;
+
+	if (pos->selected == 1) {
+		circ = sfCircleShape_create();
+		sfCircleShape_setPointCount(circ, 10);
+		sfCircleShape_setPosition(circ, (sfVector2f){pos->x-6, pos->y-6});
+		sfCircleShape_setRadius(circ, 6);
+		sfCircleShape_setFillColor(circ, (sfColor){255,159,243,255});
+		sfRenderWindow_drawCircleShape(wd, circ, NULL);
+		return (1);
+	}
+	return (0);
+}
+
+//PAS A LA NORME
 int draw_iso_map(sfRenderWindow *wd, map_t *map)
 {
 	sfVertexArray	*line1 = NULL;
 	sfVertexArray	*line2 = NULL;
-	sfVector2f	**isomap = map->isomap;
+	pos_t	**isomap = map->isomap;
 
 	for (int y = 0; y < map->height; y++) {
 		for (int x = 0; x < map->width; x++) {
@@ -48,6 +64,7 @@ int draw_iso_map(sfRenderWindow *wd, map_t *map)
 				sfRenderWindow_drawVertexArray(wd, line1, NULL);
 			if (line2 != NULL)
 				sfRenderWindow_drawVertexArray(wd, line2, NULL);
+			draw_selection(wd, &isomap[y][x]);
 			line1 = NULL;
 			line2 = NULL;
 		}

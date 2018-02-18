@@ -35,10 +35,8 @@ void check_event_map_editor(sfRenderWindow *wd, my_world_t *world)
 
 	while(sfRenderWindow_pollEvent(wd, &event)) {
 		scene_events_handler(wd, event, world->actual_scene);
-		if (event.type == sfEvtMouseWheelScrolled) {
+		if (event.type == sfEvtMouseWheelScrolled)
 			manage_wheel_scroll(event, world);
-		} else if (event.type == sfEvtMouseButtonPressed) {
-			manage_selection(event, world);
-		}
+		manage_selection(event, world);
 	}
 }

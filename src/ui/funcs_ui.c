@@ -32,4 +32,5 @@ void	click_map_create(void *ptr)
 	world->map = init_map(map_name, map_width, map_height, NULL);
 	world->state = 1;
 	world->actual_scene = init_map_editor();
+	set_window_editor_name(world->wd, map_name);
 }

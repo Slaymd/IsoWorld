@@ -64,6 +64,7 @@ void start_program(my_world_t *world, int state)
 	//init_tools(world);
 	scene_t *map_creator = init_map_creator(world, wd);
 	world->state = state;
+	world->wd = wd;
 
 	while (sfRenderWindow_isOpen(wd)) {
 		if (world->state == 1) {
