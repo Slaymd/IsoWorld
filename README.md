@@ -5,4 +5,8 @@ Techs used: Language C and CSFML graphical lib.
 
 ## Map creation
 
-<img width="400" src="https://i.goopics.net/YmqlA.png"/>
+<img width="400" src="https://i.goopics.net/Dwrl3.gif"/>
+
+## Editor camera : move, 2D rotations
+
+<img width="400" src="https://i.goopics.net/woGeR.gif"/>
