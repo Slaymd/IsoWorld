@@ -7,12 +7,14 @@
 
 #include "my_uilib.h"
 
-void	set_button_color(button_t *button, sfColor fill, sfColor outline)
+void	set_button_color(button_t *button, sfColor fill, sfColor outl)
 {
-	if (button == NULL || button->type != FLAT)
+	if (button == NULL || button->type != FLAT || button->rect == NULL)
 		return;
-	sfRectangleShape_setFillColor(button->rect, fill);
-	sfRectangleShape_setOutlineColor(button->rect, outline);
+	if (!(fill.r == 0 && fill.g == 0 && fill.b == 0 && fill.a == 0))
+		sfRectangleShape_setFillColor(button->rect, fill);
+	if (!(outl.r == 0 && outl.g == 0 && outl.b == 0 && outl.a == 0))
+		sfRectangleShape_setOutlineColor(button->rect, outl);
 }
 
 void	set_button_outline_thickness(button_t *button, int thickness)

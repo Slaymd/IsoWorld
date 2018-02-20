@@ -47,8 +47,45 @@ int	draw_selection(sfRenderWindow *wd, pos_t *pos)
 	return (0);
 }
 
+int	draw_iso_tile(sfRenderWindow *wd, tile_t tile)
+{
+	pos_t *tilepos[] = {tile.topleft, tile.topright,
+		tile.botright, tile.botleft, tile.topleft};
+	sfVertexArray	*line = NULL;
+
+	for (int i = 0; i < 4; i++) {
+		line = create_line(tilepos[i], tilepos[i+1]);
+		sfRenderWindow_drawVertexArray(wd, line, NULL);
+		draw_selection(wd, tilepos[i]);
+	}
+	return (0);
+}
+
+int	draw_iso_map(sfRenderWindow *wd, my_world_t *world)
+{
+	map_t *map = world->map;
+	tile_t tile = (tile_t){0, 0, 0, 0};
+
+	for (int x = 0, y = 0; y < map->height-1; x++) {
+		if (x == map->width-1) {
+			x = 0;
+			y++;
+		}
+		if (y == map->height-1)
+			break;
+		tile.topleft = &map->isomap[y][x];
+		tile.topright = &map->isomap[y][x+1];
+		tile.botleft = &map->isomap[y+1][x];
+		tile.botright = &map->isomap[y+1][x+1];
+		if (!tile_is_visible(world, tile))
+			continue;
+		draw_iso_tile(wd, tile);
+	}
+	return (0);
+}
+
 //PAS A LA NORME
-int draw_iso_map(sfRenderWindow *wd, map_t *map)
+/*int draw_iso_map(sfRenderWindow *wd, map_t *map)
 {
 	sfVertexArray	*line1 = NULL;
 	sfVertexArray	*line2 = NULL;
@@ -70,7 +107,7 @@ int draw_iso_map(sfRenderWindow *wd, map_t *map)
 		}
 	}
 	return (0);
-}
+}*/
 
 
 /*void draw_2d_map(info_map_t *map, sfRenderWindow *wd, sfVector2f **map2d)

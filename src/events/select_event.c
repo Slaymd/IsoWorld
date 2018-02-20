@@ -23,9 +23,8 @@ int	edit_altitude(map_t *map, int keyUp, int keyDown)
 			nbch++;
 		}
 	}
-	if (nbch != 0) {
-		map->isomap = convert_as_iso_map(map);
-	}
+	if (nbch != 0)
+		return (1);
 	return (0);
 }
 
@@ -41,7 +40,10 @@ int	manage_edit_selection(sfEvent e, my_world_t *world)
 		keyUp = 0;
 		keyDown = e.type == sfEvtKeyPressed ? 1 : 0;
 	}
-	edit_altitude(world->map, keyUp, keyDown);
+	if (edit_altitude(world->map,keyUp,keyDown)) {
+		update_iso_map_from_settings(world);
+		return (1);
+	}
 	return (0);
 }
 
@@ -51,9 +53,8 @@ int	manage_selection(sfEvent e, my_world_t *world)
 
 	if (e.type == sfEvtMouseButtonPressed) {
 		pos = (sfVector2f){e.mouseButton.x, e.mouseButton.y};
-		select_nearest_point(world->map, pos, 8);
+		select_nearest_point(world, pos, 8);
 	} else if (e.type == sfEvtKeyPressed || e.type == sfEvtKeyReleased)
-		manage_edit_selection(e, world);
-
+		return (manage_edit_selection(e, world));
 	return (0);
 }

@@ -42,7 +42,7 @@ int	launch_editor(sfRenderWindow *wd, my_world_t *world)
 	sfRenderWindow_clear(wd, sfBlack);
 	check_event_map_editor(wd, world);
 	//draw_2d_map(world->map, wd, map2d);
-	draw_iso_map(wd, world->map);
+	draw_iso_map(wd, world);
 	disp_scene(wd, world->actual_scene);
 	sfRenderWindow_display(wd);
 	//free_map2d(world->map, map2d);

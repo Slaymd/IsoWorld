@@ -30,9 +30,16 @@ typedef enum
 	ERROR=2,
 }textbox_entry_state_e;
 
+/*typedef struct flat_settings_s {
+	sfColor	fill_color;
+	sfColor	outline_color;
+	char		*text;
+}flat_stn_t;*/
+
 typedef struct tooltip_s {
 	char	*str;
 }tooltip_t;
+
 
 typedef struct text_s {
 	int		fontsize;
@@ -40,12 +47,25 @@ typedef struct text_s {
 	sfText	*text;
 }text_t;
 
+typedef struct button_state_s {
+	int id;
+	sfColor	fill_color;
+	sfColor	outline_color;
+	char		*text;
+	char		*sprite_path;
+	void (*action)(void*);
+	void *params;
+}bt_state_t;
+
 typedef struct button_s {
 	button_type_e type;
 	sfRectangleShape *rect;
 	struct text_s *text;
 	sfSprite *sprite;
 	struct tooltip_s *tooltip;
+	int state;
+	int nb_states;
+	struct button_state_s *states;
 	void (*action)(void*);
 	void *params;
 }button_t;
@@ -71,8 +91,8 @@ typedef struct scene_s {
 
 //Button create
 button_t	*create_void_button();
-button_t	*create_flat_button(sfIntRect pos, sfColor fill, sfColor outline);
-
+button_t	*create_flat_button(sfIntRect pos, sfColor fill,
+	sfColor outl, char *str);
 //Button disp
 void	disp_button(sfRenderWindow *wd, button_t *button);
 void	disp_buttons(sfRenderWindow *wd, button_t *buttons, int nb);
@@ -103,6 +123,10 @@ void	set_button_outline_thickness(button_t *button, int thickness);
 void set_button_text(button_t *button, char *text, sfColor color, int size);
 //set button text padding:	set text padding (in the button)
 void set_button_text_padding(button_t *button, sfVector2f padding);
+//states
+bt_state_t *init_bt_states(button_t *but, int nbstates);
+int	set_button_state(button_t *button, int state);
+void	switch_button_state(void *ptr);
 
 //****[BUTTON EVENTS]****
 //Check pos:	return 1 if pos is on the gived position

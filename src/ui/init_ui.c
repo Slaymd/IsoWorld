@@ -13,36 +13,24 @@ void	print_smth(void *ptr)
 	my_printf("%s\n", str);
 }
 
-button_t *init_toolbar_buttons(int nb)
-{
-	button_t *bts = (button_t*)malloc(sizeof(button_t)*nb);
-
-	if (bts == NULL)
-		return (NULL);
-	bts[0] = *create_flat_button((sfIntRect){12, 12, 140, 40}, sfRed, sfBlue);
-	set_button_text(&bts[0], "lolilolol", sfWhite, 26);
-	bts[0].action = &print_smth;
-	bts[0].params = (char*)"lol";
-	return (bts);
-}
-
 button_t *init_newmap_butts(my_world_t *wld, sfRenderWindow *wd, int nb)
 {
 	button_t *bts = (button_t*)malloc(sizeof(button_t)*nb);
 	sfIntRect quit_rect = (sfIntRect){WIDTH-105, HEIGHT-80, 85, 45};
 	sfIntRect crea_rect = (sfIntRect){WIDTH-260, HEIGHT-80, 115, 45};
-	sfColor lightgray = (sfColor){50, 50, 50, 255};
+	sfColor lgray = (sfColor){50, 50, 50, 255};
 
 	if (bts == NULL)
 		return (NULL);
-	bts[0] = *create_flat_button(quit_rect, sfBlack, sfWhite);
-	set_button_text(&bts[0], GENERAL_EXIT, sfWhite, 32);
+	bts[0] = *create_flat_button(quit_rect, sfBlack, sfWhite,GENERAL_EXIT);
 	bts[0].action = &close_window;
 	bts[0].params = wd;
-	bts[1] = *create_flat_button(crea_rect, lightgray, sfWhite);
-	set_button_text(&bts[1], GENERAL_CREA, sfWhite, 32);
-	bts[1].action = &click_map_create;
-	bts[1].params = wld;
+	bts[1] = *create_flat_button(crea_rect, lgray, sfWhite, GENERAL_CREA);
+	bts[1].states = init_bt_states(&bts[1], 1);
+	bts[1].states[1] = (bt_state_t){1, sfBlue, sfWhite,
+		"OK ?", NULL, &click_map_create, wld};
+	bts[1].action = NULL;
+	bts[1].params = NULL;
 	return (bts);
 }
 
@@ -61,18 +49,6 @@ text_t *init_map_creator_texts(int nb)
 	texts[4] = *create_text((sfVector2f){32,340},CREAT_MAP_SIZE,28,sfWhite);
 	texts[5] = *create_text((sfVector2f){120,380},GENERAL_MULT,24,sfWhite);
 	return (texts);
-}
-
-scene_t *init_toolbar_ui(void)
-{
-	scene_t *scene = (scene_t*)malloc(sizeof(*scene));
-
-	if (scene == NULL)
-		return (NULL);
-	scene->nb_buttons = 1;
-	scene->buttons = init_toolbar_buttons(scene->nb_buttons);
-	scene->nb_texts = 0;
-	return (scene);
 }
 
 scene_t	*init_map_creator(my_world_t *world, sfRenderWindow *wd)

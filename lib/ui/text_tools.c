@@ -9,6 +9,8 @@
 
 char	*get_text_string(text_t *text)
 {
+	if (text == NULL)
+		return (NULL);
 	return ((char*)sfText_getString(text->text));
 }
 

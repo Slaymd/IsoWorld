@@ -18,17 +18,22 @@ int	check_pos_in_button(button_t *button, sfVector2f pos)
 	return (0);
 }
 
+int	send_click_action(button_t *button)
+{
+	if (button->action != NULL)
+		button->action(button->params);
+	if (button->nb_states > 0)
+		switch_button_state(button);
+	return (1);
+}
+
 int	click_on_buttons(sfEvent event, button_t *buttons, int nb)
 {
 	sfVector2f pos = {event.mouseButton.x, event.mouseButton.y};
-	void *params = NULL;
 
 	for (int i = 0; i < nb; i++) {
-		params = buttons[i].params;
-		if (check_pos_in_button(&buttons[i], pos) && params != NULL) {
-			buttons[i].action(params);
-		} else if (check_pos_in_button(&buttons[i], pos))
-			buttons[i].action(NULL);
+		if (check_pos_in_button(&buttons[i], pos))
+			send_click_action(&buttons[i]);
 	}
 	return (0);
 }

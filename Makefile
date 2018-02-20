@@ -13,11 +13,14 @@ SRC	=	src/main.c				\
 		src/map_disp.c				\
 		src/map_tools.c			\
 		src/map_point.c			\
+		src/map_select.c			\
 		src/ui/init_ui.c			\
 		src/ui/funcs_ui.c			\
 		src/events/event.c			\
-		src/ui/wintools_ui.c			\
+		src/init_settings.c			\
+		src/ui/wintools_ui.c		\
 		src/events/key_press.c		\
+		src/events/move_event.c		\
 		src/ui/init_editor_ui.c		\
 		src/events/scroll_event.c	\
 		src/events/select_event.c

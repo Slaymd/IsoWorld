@@ -19,10 +19,12 @@ button_t	*create_void_button(void)
 	button->text = NULL;
 	button->sprite = NULL;
 	button->tooltip = NULL;
+	button->state = 0;
 	return (button);
 }
 
-button_t	*create_flat_button(sfIntRect pos, sfColor fill, sfColor outl)
+button_t	*create_flat_button(sfIntRect pos, sfColor fill,
+	sfColor outl, char *str)
 {
 	button_t *button = create_void_button();
 	sfVector2f hard_pos = (sfVector2f){pos.left, pos.top};
@@ -36,6 +38,9 @@ button_t	*create_flat_button(sfIntRect pos, sfColor fill, sfColor outl)
 	sfRectangleShape_setFillColor(button->rect, fill);
 	sfRectangleShape_setOutlineColor(button->rect, outl);
 	sfRectangleShape_setOutlineThickness(button->rect, 4);
+	set_button_text(button, str, outl, get_button_size(button).y*0.72);
 	button->type = FLAT;
+	/*button->nb_states = sts <= 0 ? 0 : sts+1;
+	button->states = init_bt_states(button, sts);*/
 	return (button);
 }

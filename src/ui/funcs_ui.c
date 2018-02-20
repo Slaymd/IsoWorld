@@ -31,6 +31,16 @@ void	click_map_create(void *ptr)
 		return;
 	world->map = init_map(map_name, map_width, map_height, NULL);
 	world->state = 1;
-	world->actual_scene = init_map_editor();
+	world->actual_scene = init_map_editor(world);
+	world->settings = init_settings();
 	set_window_editor_name(world->wd, map_name);
+}
+
+void switch_selection(void *ptr)
+{
+	my_world_t *world = (my_world_t*)ptr;
+	int select = world->settings->select_type;
+
+	world->settings->select_type = select == 1 ? 0 : 1;
+	reset_selection(world->map);
 }
