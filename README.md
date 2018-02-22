@@ -10,3 +10,7 @@ Techs used: Language C and CSFML graphical lib.
 ## Editor camera : move, 2D rotations
 
 <img width="400" src="https://i.goopics.net/woGeR.gif"/>
+
+## Editor selection
+
+<img width="400" src="https://i.goopics.net/NPR1K.gif"/>
