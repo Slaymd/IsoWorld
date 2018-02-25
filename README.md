@@ -1,3 +1,5 @@
+[![GitHub license](https://img.shields.io/github/license/Slaymd/IsoWorld.svg?style=flat-square)](https://github.com/Slaymd/IsoWorld/blob/master/LICENSE) ![Epitech](https://img.shields.io/badge/epitech-mini--project-blue.svg?longCache=true&style=flat-square)
+
 # IsoWorld
 Epitech project where we've to create map editor in isometric 3D
 
