@@ -19,7 +19,7 @@ int	edit_altitude(map_t *map, int keyUp, int keyDown)
 		if (y == map->height)
 			break;
 		if (map->isomap[y][x].selected) {
-			map->map[y][x] += keyUp ? 1 : (keyDown ? -1 : 0);
+			map->map[y][x] += keyUp ? 0.1 : (keyDown ? -0.1 : 0);
 			nbch++;
 		}
 	}
@@ -53,7 +53,7 @@ int	manage_selection(sfEvent e, my_world_t *world)
 
 	if (e.type == sfEvtMouseButtonPressed) {
 		pos = (sfVector2f){e.mouseButton.x, e.mouseButton.y};
-		select_nearest_point(world, pos, 8);
+		select_nearest_point(world, pos);
 	} else if (e.type == sfEvtKeyPressed || e.type == sfEvtKeyReleased)
 		return (manage_edit_selection(e, world));
 	return (0);

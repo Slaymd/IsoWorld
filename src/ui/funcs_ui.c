@@ -39,8 +39,9 @@ void	click_map_create(void *ptr)
 void switch_selection(void *ptr)
 {
 	my_world_t *world = (my_world_t*)ptr;
-	int select = world->settings->select_type;
 
-	world->settings->select_type = select == 1 ? 0 : 1;
+	world->settings->select_type += 1;
+	if (world->settings->select_type == 3)
+		world->settings->select_type = 0;
 	reset_selection(world->map);
 }

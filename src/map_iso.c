@@ -9,7 +9,7 @@
 
 pos_t project_iso_point(map_t *map, int zoom, sfVector2f off, int pt[3])
 {
-	pos_t	tdpoint = (pos_t){0, 0, 0};
+	pos_t	tdpoint = (pos_t){0, 0, 0, sfRed};
 	double angleX = -map->angle.x * M_PI / 180;
  	double angleY = map->angle.y * M_PI / 180;
 	int a = (map->width/2)*map->scaling.x*zoom;

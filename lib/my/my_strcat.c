@@ -24,7 +24,7 @@ char *my_strcat(char *dest, char *src)
 		free(dest);
 	}
 	for (int i = 0; newdest != NULL && src[i] != '\0'; i++)
-		newdest[my_strlen(newdest) + i] = src[i];
+		newdest[my_strlen(newdest)] = src[i];
 	dest = my_calloc(my_strlen(newdest)+1);
 	for (int i = 0; dest != NULL && newdest[i] != '\0'; i++)
 		dest[i] = newdest[i];

@@ -12,6 +12,10 @@ int	edit_angle(my_world_t *world, sfVector2f offset)
 	int newangleY = world->map->angle.y + offset.y;
 
 	world->map->angle.x += offset.x;
+	if (world->map->angle.x > 360)
+		world->map->angle.x = world->map->angle.x-360;
+	if (world->map->angle.x < 0)
+		world->map->angle.x = 360+world->map->angle.x;
 	if (newangleY > 2 && newangleY < 75)
 		world->map->angle.y += offset.y;
 	update_iso_map_from_settings(world);
@@ -23,9 +27,7 @@ int	edit_offset(my_world_t *world, sfVector2f offset)
 	int	offsetX = world->settings->offset.x+offset.x;
 	int	offsetY = world->settings->offset.y+offset.y;
 
-	//if (offsetX > 0 && offsetX < world->map->width)
 	world->settings->offset.x = offsetX;
-	//if (offsetY > 0 && offsetY < world->map->height)
 	world->settings->offset.y = offsetY;
 	update_iso_map_from_settings(world);
 	return (0);

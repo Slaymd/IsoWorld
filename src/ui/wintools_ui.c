@@ -7,7 +7,7 @@
 
 #include "myworld.h"
 
-sfRenderWindow	*create_window()
+sfRenderWindow	*create_window(void)
 {
 	sfRenderWindow	*window;
 	sfVideoMode	mode;
@@ -27,8 +27,10 @@ int	set_window_editor_name(sfRenderWindow *wd, char *map_name)
 
 	for (int i = 0; wdflat[i] != '\0'; i++)
 		wdname[i] = wdflat[i];
-	for (int i = 0; map_name[i] != '\0'; i++)
+	for (int i = 0; map_name[i] != '\0'; i++) {
 		wdname[my_strlen(wdflat)+i] = map_name[i];
+		wdname[my_strlen(wdflat)+i+1] = '\0';
+	}
 	sfRenderWindow_setTitle(wd, wdname);
 	return (0);
 }

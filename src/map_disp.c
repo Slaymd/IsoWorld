@@ -7,29 +7,11 @@
 
 #include "myworld.h"
 
-sfColor	get_line_color(pos_t *pt1, pos_t *pt2)
-{
-	sfColor color = (sfColor){255,159,243,255};
+void draw_iso_map_angle1(sfRenderWindow *, map_t *map, tile_t);
+void draw_iso_map_angle2(sfRenderWindow *, map_t *map, tile_t);
+void draw_iso_map_angle3(sfRenderWindow *, map_t *map, tile_t);
+void draw_iso_map_angle4(sfRenderWindow *, map_t *map, tile_t);
 
-	if (pt1->selected && pt2->selected)
-		return (color);
-	return (sfWhite);
-}
-
-sfVertexArray *create_line(pos_t *pt1, pos_t *pt2)
-{
-	sfVertexArray *vertex_array = sfVertexArray_create();
-	sfColor linecolor = get_line_color(pt1, pt2);
-	sfVector2f point1 = (sfVector2f){pt1->x, pt1->y};
-	sfVector2f point2 = (sfVector2f){pt2->x, pt2->y};
-
-	sfVertex vertex1 = {.position = point1, .color = linecolor};
-	sfVertex vertex2 = {.position = point2, .color = linecolor};
-	sfVertexArray_append(vertex_array, vertex1);
-	sfVertexArray_append(vertex_array, vertex2);
-	sfVertexArray_setPrimitiveType(vertex_array, sfLinesStrip);
-	return (vertex_array);
-}
 
 int	draw_selection(sfRenderWindow *wd, pos_t *pos)
 {
@@ -38,7 +20,7 @@ int	draw_selection(sfRenderWindow *wd, pos_t *pos)
 	if (pos->selected == 1) {
 		circ = sfCircleShape_create();
 		sfCircleShape_setPointCount(circ, 10);
-		sfCircleShape_setPosition(circ, (sfVector2f){pos->x-6, pos->y-6});
+		sfCircleShape_setPosition(circ,(sfVector2f){pos->x-6,pos->y-6});
 		sfCircleShape_setRadius(circ, 6);
 		sfCircleShape_setFillColor(circ, (sfColor){255,159,243,255});
 		sfRenderWindow_drawCircleShape(wd, circ, NULL);
@@ -53,11 +35,13 @@ int	draw_iso_tile(sfRenderWindow *wd, tile_t tile)
 		tile.botright, tile.botleft, tile.topleft};
 	sfVertexArray	*line = NULL;
 
+	sfRenderWindow_drawVertexArray(wd, create_tile(&tile), NULL);
 	for (int i = 0; i < 4; i++) {
 		line = create_line(tilepos[i], tilepos[i+1]);
 		sfRenderWindow_drawVertexArray(wd, line, NULL);
 		draw_selection(wd, tilepos[i]);
 	}
+
 	return (0);
 }
 
@@ -66,66 +50,14 @@ int	draw_iso_map(sfRenderWindow *wd, my_world_t *world)
 	map_t *map = world->map;
 	tile_t tile = (tile_t){0, 0, 0, 0};
 
-	for (int x = 0, y = 0; y < map->height-1; x++) {
-		if (x == map->width-1) {
-			x = 0;
-			y++;
-		}
-		if (y == map->height-1)
-			break;
-		tile.topleft = &map->isomap[y][x];
-		tile.topright = &map->isomap[y][x+1];
-		tile.botleft = &map->isomap[y+1][x];
-		tile.botright = &map->isomap[y+1][x+1];
-		if (!tile_is_visible(world, tile))
-			continue;
-		draw_iso_tile(wd, tile);
+	if (map->angle.x < 90) {
+		draw_iso_map_angle1(wd, map, tile);
+	} else if (map->angle.x < 180) {
+		draw_iso_map_angle2(wd, map, tile);
+	} else if (map->angle.x < 270) {
+		draw_iso_map_angle3(wd, map, tile);
+	} else {
+		draw_iso_map_angle4(wd, map, tile);
 	}
 	return (0);
 }
-
-//PAS A LA NORME
-/*int draw_iso_map(sfRenderWindow *wd, map_t *map)
-{
-	sfVertexArray	*line1 = NULL;
-	sfVertexArray	*line2 = NULL;
-	pos_t	**isomap = map->isomap;
-
-	for (int y = 0; y < map->height; y++) {
-		for (int x = 0; x < map->width; x++) {
-			if (x+1 < map->width)
-				line1 = create_line(&isomap[y][x], &isomap[y][x+1]);
-			if (y+1 < map->height)
-				line2 = create_line(&isomap[y][x], &isomap[y+1][x]);
-			if (line1 != NULL)
-				sfRenderWindow_drawVertexArray(wd, line1, NULL);
-			if (line2 != NULL)
-				sfRenderWindow_drawVertexArray(wd, line2, NULL);
-			draw_selection(wd, &isomap[y][x]);
-			line1 = NULL;
-			line2 = NULL;
-		}
-	}
-	return (0);
-}*/
-
-
-/*void draw_2d_map(info_map_t *map, sfRenderWindow *wd, sfVector2f **map2d)
-{
-	sfVertexArray *line;
-	int i;
-	int j;
-
-	for (i = 0; i < map->width; i++) {
-		for (j = 0;j < map->lenght - 1; j++) {
-			line = create_line(&map2d[i][j], &map2d[i][j + 1]);
-			sfRenderWindow_drawVertexArray(wd, line, NULL);
-		}
-	}
-	for (j = 0; j < map->lenght; j++) {
-		for (i = 0; i < map->width - 1; i++) {
-			line = create_line(&map2d[i][j], &map2d[i + 1][j]);
-			sfRenderWindow_drawVertexArray(wd, line, NULL);
-		}
-	}
-}*/

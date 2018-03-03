@@ -38,9 +38,8 @@ button_t	*create_flat_button(sfIntRect pos, sfColor fill,
 	sfRectangleShape_setFillColor(button->rect, fill);
 	sfRectangleShape_setOutlineColor(button->rect, outl);
 	sfRectangleShape_setOutlineThickness(button->rect, 4);
-	set_button_text(button, str, outl, get_button_size(button).y*0.72);
+	hard_pos.x += 10;
+	button->text = create_text(hard_pos, str, hard_size.y*0.72, outl);
 	button->type = FLAT;
-	/*button->nb_states = sts <= 0 ? 0 : sts+1;
-	button->states = init_bt_states(button, sts);*/
 	return (button);
 }

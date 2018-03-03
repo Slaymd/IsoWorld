@@ -10,16 +10,18 @@ SRC	=	src/main.c				\
 		src/save.c				\
 		src/map_iso.c				\
 		src/map_gen.c				\
+		src/load_map.c				\
 		src/map_disp.c				\
-		src/map_tools.c			\
 		src/map_point.c			\
+		src/map_vertex.c			\
 		src/map_select.c			\
+		src/file_tools.c			\
 		src/ui/init_ui.c			\
 		src/ui/funcs_ui.c			\
 		src/events/event.c			\
 		src/init_settings.c			\
+		src/map_disp_angle.c		\
 		src/ui/wintools_ui.c		\
-		src/events/key_press.c		\
 		src/events/move_event.c		\
 		src/ui/init_editor_ui.c		\
 		src/events/scroll_event.c	\

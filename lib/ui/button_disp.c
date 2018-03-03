@@ -19,6 +19,7 @@ void	disp_button(sfRenderWindow *wd, button_t *button)
 				disp_text(wd, button->text);
 			break;
 		default:
+			sfRenderWindow_drawSprite(wd, button->sprite, NULL);
 			break;
 	}
 }

@@ -5,13 +5,7 @@
 ** initializing UI
 */
 
-#include "myworld.h"
-
-void	print_smth(void *ptr)
-{
-	char *str = (char*)ptr;
-	my_printf("%s\n", str);
-}
+#include "../../include/myworld.h"
 
 button_t *init_newmap_butts(my_world_t *wld, sfRenderWindow *wd, int nb)
 {
@@ -22,12 +16,12 @@ button_t *init_newmap_butts(my_world_t *wld, sfRenderWindow *wd, int nb)
 
 	if (bts == NULL)
 		return (NULL);
-	bts[0] = *create_flat_button(quit_rect, sfBlack, sfWhite,GENERAL_EXIT);
+	bts[0] = *create_flat_button(quit_rect,sfBlack,sfWhite,GENERAL_EXIT);
 	bts[0].action = &close_window;
 	bts[0].params = wd;
-	bts[1] = *create_flat_button(crea_rect, lgray, sfWhite, GENERAL_CREA);
+	bts[1] = *create_flat_button(crea_rect,lgray,sfWhite,GENERAL_CREA);
 	bts[1].states = init_bt_states(&bts[1], 1);
-	bts[1].states[1] = (bt_state_t){1, sfBlue, sfWhite,
+	bts[1].states[1] = (bt_state_t){1,sfBlue,sfWhite,
 		"OK ?", NULL, &click_map_create, wld};
 	bts[1].action = NULL;
 	bts[1].params = NULL;
@@ -45,8 +39,8 @@ text_t *init_map_creator_texts(int nb)
 	set_text_font(&texts[0], "assets/fonts/Ubuntu-M.ttf");
 	texts[1] = *create_text((sfVector2f){32,95},SOFT_SUBTITLE,32,sfWhite);
 	texts[2] = *create_text((sfVector2f){32,150},NO_MAP_MSG,24,yellow);
-	texts[3] = *create_text((sfVector2f){32,230},CREAT_MAP_NAME,28,sfWhite);
-	texts[4] = *create_text((sfVector2f){32,340},CREAT_MAP_SIZE,28,sfWhite);
+	texts[3] = *create_text((sfVector2f){32,230},CREA_MAPNAME,28,sfWhite);
+	texts[4] = *create_text((sfVector2f){32,340},CREA_MAPSIZE,28,sfWhite);
 	texts[5] = *create_text((sfVector2f){120,380},GENERAL_MULT,24,sfWhite);
 	return (texts);
 }

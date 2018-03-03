@@ -7,31 +7,26 @@
 
 #include "myworld.h"
 
-int	select_point_ifnear(my_world_t *wd, pos_t *pt, sfVector2f pos, int dlt)
+sfVector2i	get_nearest_camera_point(my_world_t *wd)
 {
-	int	distance = sqrt(pow(pt->x-pos.x, 2)+pow(pt->y-pos.y, 2));
-	int	oldsel = pt->selected;
+	sfVector2i	nearest_coords = {.x = 0, .y = 0};
+	pos_t		*_nearest = &wd->map->isomap[0][0];
+	pos_t		*_tmp = NULL;
 
-	if (distance <= dlt) {
-		if (wd->settings->select_type)
-			reset_selection(wd->map);
-		pt->selected = oldsel == 1 ? 0 : 1;
-		return (1);
-	}
-	return (0);
-}
-
-int	select_nearest_point(my_world_t *wd, sfVector2f pos, int dlt)
-{
-	int rtn = 0;
-	map_t	*map = wd->map;
-
-	for (int y = map->height-1; y >= 0 && rtn == 0; y--) {
-		for (int x = map->width-1; x >= 0 && rtn == 0; x--) {
-			rtn = select_point_ifnear(wd, &map->isomap[y][x], pos, dlt);
+	for (int x = 0, y = 0; y < wd->map->height; x++) {
+		if (x == wd->map->width) {
+			x = 0;
+			y++;
+		}
+		if (y == wd->map->height)
+			break;
+		_tmp = &wd->map->isomap[y][x];
+		if (_tmp->y > _nearest->y) {
+			_nearest = _tmp;
+			nearest_coords = (sfVector2i){x, y};
 		}
 	}
-	return (rtn);
+	return (nearest_coords);
 }
 
 int	point_is_visible(my_world_t *wd, pos_t pos)

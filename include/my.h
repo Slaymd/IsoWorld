@@ -80,3 +80,7 @@ char *my_get_str_from_nbr(int nb);
 char **my_str_split(char *str, char c);
 
 void	free_strdarray(char **darray);
+
+int	my_streqstr(char *str1, char *str2);
+
+int	my_count_word_array_args(char **word_array);

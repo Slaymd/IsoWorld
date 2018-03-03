@@ -30,17 +30,6 @@ typedef enum
 	ERROR=2,
 }textbox_entry_state_e;
 
-/*typedef struct flat_settings_s {
-	sfColor	fill_color;
-	sfColor	outline_color;
-	char		*text;
-}flat_stn_t;*/
-
-typedef struct tooltip_s {
-	char	*str;
-}tooltip_t;
-
-
 typedef struct text_s {
 	int		fontsize;
 	sfFont	*font;
@@ -57,19 +46,24 @@ typedef struct button_state_s {
 	void *params;
 }bt_state_t;
 
+typedef struct tooltip_s {
+	text_t			*text;
+	sfRectangleShape	*rect;
+	int				state;
+}tooltip_t;
+
 typedef struct button_s {
 	button_type_e type;
 	sfRectangleShape *rect;
-	struct text_s *text;
+	text_t *text;
 	sfSprite *sprite;
-	struct tooltip_s *tooltip;
+	tooltip_t *tooltip;
 	int state;
 	int nb_states;
 	struct button_state_s *states;
 	void (*action)(void*);
 	void *params;
 }button_t;
-
 
 typedef struct textbox_s {
 	sfRectangleShape 		*rect;
@@ -89,6 +83,12 @@ typedef struct scene_s {
 	text_t	*texts;
 }scene_t;
 
+//Tooltips create
+tooltip_t	*create_tooltip(char *str, int size);
+
+//Tooltips disp
+void	disp_tooltips(sfRenderWindow *wd, button_t *buttons, int nb);
+
 //Button create
 button_t	*create_void_button();
 button_t	*create_flat_button(sfIntRect pos, sfColor fill,
@@ -104,48 +104,28 @@ sfVector2f get_button_position(button_t *button);
 sfVector2f get_button_size(button_t *button);
 
 //Buttons events
-int	click_on_buttons(sfEvent event, button_t *buttons, int nb);
-int	hover_on_buttons(sfEvent event, button_t *buttons, int nb);
-
-//****[BUTTON CUSTOMISATION]****
-//get fill/outline color:	return FLAT fill/outline color or
-//						rgba(0, 0, 0, 0) in case of error
+int	click_on_buttons(sfEvent event, button_t *buttons, int);
+int	hover_on_buttons(sfEvent event, button_t *buttons, int);
+//get fill/outline color
 sfColor get_button_fill_color(button_t *button);
 sfColor get_button_outline_color(button_t *button);
-//set button color:		set button fill and outline color
-//					if button is FLAT
-void	set_button_color(button_t *button, sfColor fill, sfColor outline);
-//set outline thickness:	set button outline border thickness
-//					if button is FLAT
-void	set_button_outline_thickness(button_t *button, int thickness);
-//set button text:		setting button text with UbuntuMono font
-//					do nothing when failed
-void set_button_text(button_t *button, char *text, sfColor color, int size);
-//set button text padding:	set text padding (in the button)
-void set_button_text_padding(button_t *button, sfVector2f padding);
+//set button color
+void	set_button_color(button_t *button, sfColor fill, sfColor);
+//set outline thickness:
+void	set_button_outline_thickness(button_t *button, int);
 //states
 bt_state_t *init_bt_states(button_t *but, int nbstates);
 int	set_button_state(button_t *button, int state);
 void	switch_button_state(void *ptr);
-
-//****[BUTTON EVENTS]****
-//Check pos:	return 1 if pos is on the gived position
-//			if isn't, return 0
+//Check pos:
 int	check_pos_in_button(button_t *button, sfVector2f pos);
-//set/rem hover design:	set hover design
-//					return 1 if button is FLAT,
-//					0 if isn't (and do nothing)
-//					WARN: THIS FUNCTION DOESN'T TEST POSITION!
+//set/rem hover design
 int	set_button_hover_design(button_t *button);
 int	rem_button_hover_design(button_t *button);
-
-//****[BUTTON DESTROY]****
 //free button: free all instance of button_t
 void	free_button(button_t *button);
-
-//****[TEXT]****
 //Create
-text_t	*create_text(sfVector2f pos, char *str, int size, sfColor color);
+text_t	*create_text(sfVector2f pos, char *, int, sfColor);
 //Customization
 void	set_text_string(text_t *text, char *str);
 char	*get_text_string(text_t *text);
@@ -157,18 +137,16 @@ void	disp_text(sfRenderWindow *wd, text_t *text);
 void	disp_texts(sfRenderWindow *wd, text_t *texts, int nb);
 //Destroy
 void free_text(text_t *text);
-
-//****[TEXTBOXES]****
 //Create
-textbox_t	*create_textbox(sfIntRect rect, sfColor fill, sfColor outl);
+textbox_t	*create_textbox(sfIntRect rect, sfColor fill, sfColor);
 //position/size tools
 void set_textbox_size(textbox_t *textbox, sfVector2f size);
 void set_textbox_position(textbox_t *textbox, sfVector2f pos);
 sfVector2f get_textbox_position(textbox_t *textbox);
 sfVector2f get_textbox_size(textbox_t *textbox);
 //textbox colortools
-void	set_textbox_color(textbox_t *textbox, sfColor fill, sfColor outline);
-void	set_textbox_outline_thickness(textbox_t *textbox, int thickness);
+void	set_textbox_color(textbox_t *textbox, sfColor fill, sfColor);
+void	set_textbox_outline_thickness(textbox_t *textbox, int);
 sfColor get_textbox_fill_color(textbox_t *textbox);
 sfColor get_textbox_outline_color(textbox_t *textbox);
 //effets
@@ -176,13 +154,13 @@ int	set_textbox_hover_design(textbox_t *textbox);
 int	rem_textbox_hover_design(textbox_t *textbox);
 //Events
 int	check_pos_in_textbox(textbox_t *textbox, sfVector2f pos);
-int	click_on_textboxes(sfEvent event, textbox_t *textboxes, int nb);
+int	click_on_textboxes(sfEvent event, textbox_t *textboxes, int);
 int	add_char_in_textboxes(textbox_t *textboxes, int nb, char c);
 //Destroy
 void	free_textbox(textbox_t *textbox);
 //Disps
 void	disp_textbox(sfRenderWindow *wd, textbox_t *textbox);
-void	disp_textboxes(sfRenderWindow *wd, textbox_t *textboxes, int nb);
+void	disp_textboxes(sfRenderWindow *wd, textbox_t *textboxes, int);
 
 //****[EVENTS]****
 //Keycode to char
@@ -190,9 +168,9 @@ char get_char_from_keycode(sfKeyCode key);
 
 //****[SCENES]****
 //Create
-scene_t *create_scene(int nb_buttons, int nb_textboxes, int nb_texts);
+scene_t *create_scene(int nb_buttons, int nb_textboxes, int);
 //Events
-int	scene_events_handler(sfRenderWindow *wd, sfEvent event, scene_t *scene);
+int	scene_events_handler(sfRenderWindow *wd, sfEvent, scene_t *);
 //Destroy
 void	free_scene(scene_t *scene);
 //Disp

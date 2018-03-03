@@ -7,19 +7,19 @@
 
 #include "my_uilib.h"
 
-void	set_textbox_color(textbox_t *textbox, sfColor fill, sfColor outline)
+void	set_textbox_color(textbox_t *textbox, sfColor fill, sfColor outl)
 {
 	if (textbox == NULL)
 		return;
 	sfRectangleShape_setFillColor(textbox->rect, fill);
-	sfRectangleShape_setOutlineColor(textbox->rect, outline);
+	sfRectangleShape_setOutlineColor(textbox->rect, outl);
 }
 
-void	set_textbox_outline_thickness(textbox_t *textbox, int thickness)
+void	set_textbox_outline_thickness(textbox_t *textbox, int thick)
 {
 	if (textbox == NULL)
 		return;
-	sfRectangleShape_setOutlineThickness(textbox->rect, thickness);
+	sfRectangleShape_setOutlineThickness(textbox->rect, thick);
 }
 
 sfColor get_textbox_fill_color(textbox_t *textbox)

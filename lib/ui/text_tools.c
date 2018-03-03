@@ -6,6 +6,7 @@
 */
 
 #include "my_uilib.h"
+char *my_strcpy(char *, char *);
 
 char	*get_text_string(text_t *text)
 {
@@ -16,11 +17,15 @@ char	*get_text_string(text_t *text)
 
 void	set_text_string(text_t *text, char *str)
 {
+	if (text == NULL)
+		return;
 	sfText_setString(text->text, str);
 }
 
 void set_text_position(text_t *text, sfVector2f pos)
 {
+	if (text == NULL)
+		return;
 	sfText_setPosition(text->text, pos);
 }
 

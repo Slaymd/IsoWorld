@@ -12,7 +12,7 @@ textbox_t	*create_textbox(sfIntRect rect, sfColor fill, sfColor outl)
 	textbox_t *textbox = (textbox_t*)malloc(sizeof(textbox_t));
 	sfVector2f size = (sfVector2f){rect.width, rect.height};
 	sfVector2f pos = (sfVector2f){rect.left, rect.top};
-	sfVector2f textpos = (sfVector2f){pos.x+5, pos.y-rect.height*0.11};
+	sfVector2f textpos = (sfVector2f){pos.x+5,pos.y-rect.height*0.11};
 
 	if (textbox == NULL)
 		return (NULL);
