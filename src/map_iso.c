@@ -29,24 +29,24 @@ pos_t	**convert_as_iso_map(map_t *map, int zoom, sfVector2f offset)
 {
 	int wid = map->width;
 	int hei = map->height;
-	pos_t	**old = map->isomap;
-	pos_t	**tdmap = (pos_t**)malloc(sizeof(pos_t*)*hei);
+	pos_t	**od = map->isomap;
+	pos_t	**tdm = (pos_t**)malloc(sizeof(pos_t*)*hei);
 	sfVector3f pt3D = (sfVector3f) {0, 0, 0};
 
 	for (int j = 0; j < hei; j++) {
-		tdmap[j] = (pos_t*)malloc(sizeof(pos_t)*wid);
+		tdm[j] = (pos_t*)malloc(sizeof(pos_t)*wid);
 		for (int i = 0; i < wid; i++) {
 			pt3D.x = i * map->scaling.x*zoom;
 			pt3D.y = j * map->scaling.y*zoom;
 			pt3D.z = map->map[j][i] * map->scaling.z*zoom;
-			tdmap[j][i] = project_iso_point(map, zoom,
+			tdm[j][i] = project_iso_point(map, zoom,
 				offset, (int[3]){pt3D.x,pt3D.y,pt3D.z});
-			tdmap[j][i].x = tdmap[j][i].x;
-			tdmap[j][i].y = tdmap[j][i].y;
-			tdmap[j][i].selected = old != NULL ? old[j][i].selected : 0;
+			tdm[j][i].x = tdm[j][i].x;
+			tdm[j][i].y = tdm[j][i].y;
+			tdm[j][i].selected = od != NULL ? od[j][i].selected : 0;
 		}
 	}
-	return (tdmap);
+	return (tdm);
 }
 
 int	update_iso_map_from_settings(my_world_t *world)

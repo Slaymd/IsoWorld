@@ -5,16 +5,17 @@
 ## MF
 ##
 
-SRC_TEST	=	test/test_visibility.c		\
-			src/map_point.c			\
+SRC_TEST	=	src/map_point.c			\
 			src/map_gen.c				\
 			src/init_settings.c			\
 			src/map_iso.c				\
-			test/fake_inits.c			\
 			src/file_tools.c			\
 			test/test_ext.c			\
 			test/test_gen.c			\
-			test/test_nbr_to_str.c
+			test/test_nbr_to_str.c		\
+			test/test_float_to_str.c		\
+			test/test_str_to_float.c		\
+			src/float.c
 
 SRC	=	src/main.c				\
 		src/free.c				\
@@ -24,6 +25,7 @@ SRC	=	src/main.c				\
 		src/load_map.c				\
 		src/map_disp.c				\
 		src/map_point.c			\
+		src/float.c				\
 		src/map_vertex.c			\
 		src/map_select.c			\
 		src/file_tools.c			\

@@ -24,6 +24,30 @@ int	my_get_int_len(int nb)
 	return (len);
 }
 
+char *my_get_str_from_float(int nb, int point)
+{
+	char *strnbr = my_calloc(my_get_int_len(nb)+2);
+	int index = 0;
+	int neg = nb < 0 ? 1 : 0;
+
+	if (strnbr == NULL)
+		return (NULL);
+	nb *= nb < 0 ? -1 : 1;
+	if (nb == 0)
+		strnbr[index] = '0';
+	for (; nb != 0; index++) {
+		if (index == point)
+			strnbr[index] = '.';
+		else {
+			strnbr[index] = (nb % 10) + '0';
+			nb /= 10;
+		}
+	}
+	strnbr[index] = neg == 1 ? '-' : '\0';
+	strnbr[index+1] = '\0';
+	return (my_revstr(strnbr));
+}
+
 char *my_get_str_from_nbr(int nb)
 {
 	char *strnbr = my_calloc(my_get_int_len(nb)+1);

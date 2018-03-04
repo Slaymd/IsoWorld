@@ -12,7 +12,6 @@ void draw_iso_map_angle2(sfRenderWindow *, map_t *map, tile_t);
 void draw_iso_map_angle3(sfRenderWindow *, map_t *map, tile_t);
 void draw_iso_map_angle4(sfRenderWindow *, map_t *map, tile_t);
 
-
 int	draw_selection(sfRenderWindow *wd, pos_t *pos)
 {
 	sfCircleShape	*circ = NULL;

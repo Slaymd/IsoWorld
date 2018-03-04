@@ -13,14 +13,14 @@ void	disp_button(sfRenderWindow *wd, button_t *button)
 	if (button == NULL)
 		return;
 	switch(button->type) {
-		case FLAT:
-			sfRenderWindow_drawRectangleShape(wd, button->rect, NULL);
-			if (button->text != NULL)
-				disp_text(wd, button->text);
-			break;
-		default:
-			sfRenderWindow_drawSprite(wd, button->sprite, NULL);
-			break;
+	case FLAT:
+		sfRenderWindow_drawRectangleShape(wd,button->rect,NULL);
+		if (button->text != NULL)
+			disp_text(wd, button->text);
+		break;
+	default:
+		sfRenderWindow_drawSprite(wd, button->sprite, NULL);
+		break;
 	}
 }
 

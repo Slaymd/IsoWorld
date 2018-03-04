@@ -12,7 +12,7 @@ int	open_file_or_create_to_write(char *path)
 	int fd = open(path, O_WRONLY);
 
 	if (fd == -1) {
-		fd = open(path, O_CREAT);
+		fd = open(path, O_CREAT, S_IRWXU);
 		if (fd == -1)
 			return (-1);
 		return (open_file_or_create_to_write(path));

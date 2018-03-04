@@ -73,7 +73,9 @@ char *my_get_str_from_nbr(int nb);
 
 char *my_get_str_from_nbr(int nb);
 int	my_get_int_len(int nb);
+char *float_to_str(float nb);
 void save_map(void *ptr);
+char *my_get_str_from_float(int nb, int point);
 int load_map(my_world_t *world, char *name);
 
 //MAP DISPS
@@ -119,3 +121,7 @@ void switch_selection(void *ptr);
 int	open_file_or_create_to_write(char *path);
 int	open_file_or_create_to_read(char *path);
 int	is_extension(char *path, char *ext);
+
+//NUMBERS TOOLS
+char *float_to_str(float nb);
+float str_to_float(char *str);

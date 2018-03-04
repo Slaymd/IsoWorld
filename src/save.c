@@ -59,8 +59,8 @@ void save_corners(int fd, int x, int y, int z)
 	write(fd, my_get_str_from_nbr(y), \
 	my_strlen(my_get_str_from_nbr(y)));
 	write(fd, &comma, 1);
-	write(fd, my_get_str_from_nbr(z), \
-	my_strlen(my_get_str_from_nbr(z)));
+	write(fd, float_to_str(z), \
+	my_strlen(float_to_str(z)));
 }
 
 void save_map(void *ptr)

@@ -30,7 +30,7 @@ void	my_str_split_addbuff(char *buff, char *str, int *buffi, int i)
 	*buffi += 1;
 }
 
-int	check_act_char(char *str, int i, char c, int *quotes)
+int	check_bufchar(char *str, int i, char c, int *quotes)
 {
 	if (str[i] == '\"') {
 		*quotes += 1;
@@ -56,18 +56,18 @@ char **my_str_split(char *str, char c)
 	int nblines = my_count_char(str, c) + 1;
 	char **arr = (char**)malloc(sizeof(char*)*(nblines+1));
 	char	buff[my_strlen(str)+2];
-	int buffi = 0;
+	int bufi = 0;
 	int word = 0;
-	int quotes = 0;
+	int quot = 0;
 
 	for (int i = 0; str != NULL && i <= my_strlen(str); i++) {
-		if (check_act_char(str, i, c, &quotes) || (buffi==0 && str[i]==c))
+		if (check_bufchar(str, i, c, &quot) || (bufi==0 && str[i]==c))
 			continue;
-		if ((str[i]!=c && str[i]!='\0') || quotes % 2 == 1) {
-			my_str_split_addbuff(buff, str, &buffi, i);
+		if ((str[i]!=c && str[i]!='\0') || quot % 2 == 1) {
+			my_str_split_addbuff(buff, str, &bufi, i);
 			continue;
 		}
-		word = my_str_split_fill(arr, word, buff, &buffi);
+		word = my_str_split_fill(arr, word, buff, &bufi);
 	}
 	check_onlyc(str, c, arr);
 	arr[word] = NULL;
